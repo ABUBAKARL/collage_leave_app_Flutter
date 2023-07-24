@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
-import '../functions/controllers.dart';
 import '../functions/sign_in.dart';
 import '../widgets/flat_switch.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -13,9 +12,9 @@ class login_info extends StatefulWidget {
   State<login_info> createState() => _login_infoState();
 }
 
+bool _switch = false;
 FirebaseFirestore _firestore = FirebaseFirestore.instance;
 FirebaseAuth _auth = FirebaseAuth.instance;
-Switch_controller _switch = Get.put(Switch_controller(), permanent: true);
 TextEditingController _namecontroller = TextEditingController();
 TextEditingController _smestercontroller = TextEditingController();
 TextEditingController _rollNocontroller = TextEditingController();
@@ -44,7 +43,13 @@ class _login_infoState extends State<login_info> {
               SizedBox(
                 height: Get.height * .05,
               ),
-              const fl_switch(),
+              fl_switch(
+                switch_: _switch,
+                toogle: () {
+                  _switch = !_switch;
+                  setState(() {});
+                },
+              ),
               SizedBox(
                 height: Get.height * .1,
               ),
@@ -95,7 +100,7 @@ class _login_infoState extends State<login_info> {
                           },
                           controller: _rollNocontroller,
                           keyboardType: TextInputType.number,
-                          enabled: _switch.selected.value ? false : true,
+                          enabled: _switch ? false : true,
                           decoration: const InputDecoration(
                             hintText: 'Roll number',
                             border: OutlineInputBorder(
@@ -131,7 +136,7 @@ class _login_infoState extends State<login_info> {
                           },
                           controller: _smestercontroller,
                           keyboardType: TextInputType.number,
-                          enabled: _switch.selected.value ? false : true,
+                          enabled: _switch ? false : true,
                           decoration: const InputDecoration(
                             hintText: 'Semester',
                             border: OutlineInputBorder(
@@ -167,9 +172,7 @@ class _login_infoState extends State<login_info> {
                     },
                     controller: _departmentcontroller,
                     decoration: InputDecoration(
-                      hintText: _switch.selected.value
-                          ? 'Department/Subject'
-                          : "Department",
+                      hintText: _switch ? 'Department/Subject' : "Department",
                       border: const OutlineInputBorder(
                         borderSide: BorderSide(
                           color: Colors.deepPurple,
@@ -189,7 +192,7 @@ class _login_infoState extends State<login_info> {
               ),
               ElevatedButton(
                 onPressed: () {
-                  if (_switch.selected.value) {
+                  if (_switch) {
                     if (_departementkey.currentState!.validate() &
                         _namekey.currentState!.validate()) {
                       _firestore
@@ -234,7 +237,7 @@ class _login_infoState extends State<login_info> {
                         'profile': _auth.currentUser!.photoURL,
                         'allowed': true
                       }).then(
-                        (value) async{
+                        (value) async {
                           Hive.box("users").put("Auth", "student");
                           await signInCheck();
                         },
