@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "674016294268",
+    "project_id": "leave-management-sys-54201",
+    "storage_bucket": "leave-management-sys-54201.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:674016294268:android:8df261438ab4fb43e3a0f9",
+        "android_client_info": {
+          "package_name": "com.example.collage_leave_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "674016294268-k6tjieor2bfp9j1ro15edd430oskaoef.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD4oRPzo7Yg8sanCYHCpv_3-uBDZumBqaI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "674016294268-k6tjieor2bfp9j1ro15edd430oskaoef.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
