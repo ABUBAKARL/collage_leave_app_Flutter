@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import '../settings/colors.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import '../Screens/user_info.dart';
+
 CollectionReference application_ref =
     FirebaseFirestore.instance.collection('applications');
 CollectionReference user_ref = FirebaseFirestore.instance.collection('users');
@@ -37,7 +38,6 @@ class teacher_leave extends StatelessWidget {
                                 () => user_info(
                                   name: userdata.get('name'),
                                   gmail: userdata.get('mail'),
-                                  department: userdata.get('department'),
                                   profile: userdata.get('profile'),
                                   rollno: int.parse(
                                     userdata.get('rollno'),
@@ -137,9 +137,10 @@ class teacher_leave extends StatelessWidget {
                                             child: Text(
                                               'Reject',
                                               style: TextStyle(
-                                                  fontSize: 15,
-                                                  color: Colors.white,
-                                                  fontFamily: 'ShantellSans'),
+                                                fontSize: 15,
+                                                color: Colors.white,
+                                                fontFamily: 'ShantellSans',
+                                              ),
                                             ),
                                           ),
                                         ),
@@ -151,9 +152,10 @@ class teacher_leave extends StatelessWidget {
                                         child: Text(
                                           'Approved',
                                           style: TextStyle(
-                                              fontSize: 15,
-                                              color: Colors.white,
-                                              fontFamily: 'ShantellSans'),
+                                            fontSize: 15,
+                                            color: Colors.white,
+                                            fontFamily: 'ShantellSans',
+                                          ),
                                         ),
                                       )
                                     : const Center(

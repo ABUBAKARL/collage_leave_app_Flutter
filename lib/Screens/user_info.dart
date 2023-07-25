@@ -5,14 +5,12 @@ import '../widgets/details_chip.dart';
 class user_info extends StatefulWidget {
   final String name;
   final String gmail;
-  final String department;
   final String profile;
   final int rollno;
   final int semester;
   const user_info({
     super.key,
     required this.name,
-    required this.department,
     required this.gmail,
     required this.profile,
     required this.rollno,
@@ -52,9 +50,6 @@ class user_infoState extends State<user_info> {
           ),
           details_chip(
             data: widget.name,
-          ),
-          details_chip(
-            data: widget.department,
           ),
           details_chip(
             data: widget.gmail,
