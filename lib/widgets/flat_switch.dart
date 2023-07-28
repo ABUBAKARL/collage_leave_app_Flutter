@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class fl_switch extends StatefulWidget {
-  bool switch_;
-  VoidCallback toogle;
+class FlatSwitch extends StatefulWidget {
+ final bool switch_;
+ final VoidCallback toogle;
 
-  fl_switch({super.key, required this.switch_, required this.toogle});
+  const FlatSwitch({super.key, required this.switch_, required this.toogle});
 
   @override
-  State<fl_switch> createState() => _fl_switchState();
+  State<FlatSwitch> createState() => _FlatSwitchState();
 }
 
-class _fl_switchState extends State<fl_switch> {
+class _FlatSwitchState extends State<FlatSwitch> {
   Color selected_color = Colors.white;
 
   Color unselected_color = Colors.grey.shade500;

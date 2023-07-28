@@ -41,7 +41,7 @@ class _login_infoState extends State<login_info> {
               SizedBox(
                 height: Get.height * .05,
               ),
-              fl_switch(
+              FlatSwitch(
                 switch_: _switch,
                 toogle: () {
                   _switch = !_switch;
@@ -154,7 +154,7 @@ class _login_infoState extends State<login_info> {
                 height: Get.height * .1,
               ),
               ElevatedButton(
-                onPressed: () {
+                onPressed: () async {
                   if (_switch) {
                     if (_namekey.currentState!.validate()) {
                       _firestore
@@ -184,32 +184,58 @@ class _login_infoState extends State<login_info> {
                     if (_namekey.currentState!.validate() &
                         _rollnokey.currentState!.validate() &
                         _smesterkey.currentState!.validate()) {
-                      _firestore
-                          .collection('users')
-                          .doc(_auth.currentUser!.uid)
-                          .set({
-                        'id': _auth.currentUser!.uid,
-                        'name': _namecontroller.text,
-                        'semester': _smestercontroller.text,
-                        'rollno': _rollNocontroller.text,
-                        "mail": _auth.currentUser!.email,
-                        'profile': _auth.currentUser!.photoURL,
-                        'allowed': true
-                      }).then(
-                        (value) async {
-                          Hive.box("users").put("Auth", "student");
-                          await signInCheck();
-                        },
-                      ).onError(
-                        (error, stackTrace) {
+                      await _firestore
+                          .collection("initCollection")
+                          .doc(_rollNocontroller.text.toString())
+                          .get()
+                          .then((value) {
+                        if (value.exists) {
+                          var StudentName =
+                              value.get("name").toString().toLowerCase();
+                          if (StudentName ==
+                              _namecontroller.text.toLowerCase().trim()) {
+                            _firestore
+                                .collection('users')
+                                .doc(_auth.currentUser!.uid)
+                                .set({
+                              'id': _auth.currentUser!.uid,
+                              'name': _namecontroller.text,
+                              'semester': _smestercontroller.text,
+                              'rollno': _rollNocontroller.text,
+                              "mail": _auth.currentUser!.email,
+                              'profile': _auth.currentUser!.photoURL,
+                              'allowed': true
+                            }).then(
+                              (value) async {
+                                Hive.box("users").put("Auth", "student");
+                                await signInCheck();
+                              },
+                            ).onError(
+                              (error, stackTrace) {
+                                Get.snackbar(
+                                  'Error',
+                                  error.toString(),
+                                );
+                              },
+                            );
+                          } else {
+                            Get.snackbar(
+                              'Error',
+                              'Your name is not correct',
+                            );
+                          }
+                        } else {
                           Get.snackbar(
                             'Error',
-                            error.toString(),
+                            'Roll number does not exist in our database',
                           );
-                        },
-                      );
+                        }
+                      });
                     }
                   }
+                  _rollNocontroller.clear();
+                  _namecontroller.clear();
+                  _smestercontroller.clear();
                 },
                 child: const Text('Proceed'),
               ),
