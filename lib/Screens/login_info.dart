@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:hive/hive.dart';
 import '../functions/sign_in.dart';
 import '../widgets/flat_switch.dart';
@@ -223,12 +224,16 @@ class _login_infoState extends State<login_info> {
                               'Error',
                               'Your name is not correct',
                             );
+                            _auth.signOut();
+                            GoogleSignIn().signOut();
                           }
                         } else {
                           Get.snackbar(
                             'Error',
                             'Roll number does not exist in our database',
                           );
+                          _auth.signOut();
+                          GoogleSignIn().signOut();
                         }
                       });
                     }
