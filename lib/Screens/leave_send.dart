@@ -22,18 +22,18 @@ class _leave_sendState extends State<leave_send> {
         children: [
           Expanded(
             child: ListView.builder(
-              itemCount: applications.application.length,
+              itemCount: Applications.application.length,
               itemBuilder: (BuildContext context, int index) {
                 return Card(
                   child: ListTile(
                     onTap: () {
                       date_select(
                         context,
-                        applications.application[index].toString(),
+                        Applications.application[index].toString(),
                       );
                     },
                     title: Text(
-                      applications.application[index],
+                      Applications.application[index],
                     ),
                     trailing: const Icon(
                       Icons.forward_to_inbox_outlined,

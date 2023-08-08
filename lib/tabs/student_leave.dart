@@ -97,7 +97,7 @@ class student_leave extends StatelessWidget {
                                   ),
                                   child: Center(
                                     child: Text(
-                                      applications.status[applicationStatus],
+                                      Applications.status[applicationStatus],
                                       style: const TextStyle(
                                           color: Colors.white,
                                           fontSize: 16,
