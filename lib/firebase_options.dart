@@ -53,10 +53,11 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyD4oRPzo7Yg8sanCYHCpv_3-uBDZumBqaI',
-    appId: '1:674016294268:android:8df261438ab4fb43e3a0f9',
-    messagingSenderId: '674016294268',
-    projectId: 'leave-management-sys-54201',
-    storageBucket: 'leave-management-sys-54201.appspot.com',
+    apiKey: 'AIzaSyDlpheOWev3Xo9UOahX8VBrhaVz2Nm397k',
+    appId: '1:989437567599:android:1aaf9f660a82c26202639a',
+    messagingSenderId: '989437567599',
+    projectId: 'collage-leave-app',
+    storageBucket: 'collage-leave-app.appspot.com',
   );
+
 }

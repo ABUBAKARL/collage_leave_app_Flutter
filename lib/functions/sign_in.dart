@@ -21,48 +21,49 @@ Future<void> signInCheck() async {
 
     if (userType == null) {
       // If user type is not defined, redirect to login info screen
-      Get.offAll(() => const login_info());
+      Get.offAll(() => const LoginInfo());
     } else if (userType == "student") {
       Get.off(() => const home(userType: false));
     } else if (userType == "admin") {
       Get.off(() => const home(userType: true));
     } else {
       Get.bottomSheet(
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Center(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: Text(
-                    "Sorry you Don't have access to this page or blocked by admin",
-                    style: TextStyle(
-                      color: Colors.tealAccent[300],
-                      fontSize: 25,
-                      fontFamily: "ShantellSans",
-                    ),
-                    textAlign: TextAlign.center,
+        Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Center(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Text(
+                  "Sorry you Don't have access to this page or blocked by admin",
+                  style: TextStyle(
+                    color: Colors.tealAccent[300],
+                    fontSize: 25,
+                    fontFamily: "ShantellSans",
                   ),
+                  textAlign: TextAlign.center,
                 ),
               ),
-              SizedBox(height: Get.height * 0.1),
-              IconButton(
-                onPressed: () {
-                  _auth.signOut();
-                  GoogleSignIn().signOut();
-                  Get.back();
-                  signInCheck();
-                },
-                icon: Icon(
-                  Icons.logout_outlined,
-                  size: 175,
-                  color: Colors.tealAccent[300],
-                ),
-              )
-            ],
-          ),
-          backgroundColor: Colors.red);
+            ),
+            SizedBox(height: Get.height * 0.1),
+            IconButton(
+              onPressed: () {
+                _auth.signOut();
+                GoogleSignIn().signOut();
+                Get.back();
+                signInCheck();
+              },
+              icon: Icon(
+                Icons.logout_outlined,
+                size: 175,
+                color: Colors.tealAccent[300],
+              ),
+            )
+          ],
+        ),
+        backgroundColor: Colors.red,
+      );
     }
   }
 }

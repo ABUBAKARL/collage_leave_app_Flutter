@@ -6,6 +6,7 @@ import '../Screens/splash.dart';
 import 'package:path_provider/path_provider.dart';
 import 'firebase_options.dart';
 import 'settings/colors.dart';
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
@@ -26,19 +27,9 @@ class leave_app extends StatefulWidget {
 class _leave_appState extends State<leave_app> {
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
-      theme: ThemeData(
-        appBarTheme: const AppBarTheme(
-          color: Colors.lightBlue,
-        ),
-        useMaterial3: true,
-        tabBarTheme: TabBarTheme(
-          labelColor: custom_Colors.labelColor,
-          unselectedLabelColor: custom_Colors.labelColor,
-        ),
-      ),
+    return const GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      home: const splash(),
+      home: splash(),
     );
   }
 }

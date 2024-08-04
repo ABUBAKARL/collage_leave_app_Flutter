@@ -1,49 +1,33 @@
 {
   "project_info": {
-    "project_number": "674016294268",
-    "project_id": "leave-management-sys-54201",
-    "storage_bucket": "leave-management-sys-54201.appspot.com"
+    "project_number": "989437567599",
+    "project_id": "collage-leave-app",
+    "storage_bucket": "collage-leave-app.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:674016294268:android:8df261438ab4fb43e3a0f9",
+        "mobilesdk_app_id": "1:989437567599:android:1aaf9f660a82c26202639a",
         "android_client_info": {
           "package_name": "com.example.collage_leave_app"
         }
       },
       "oauth_client": [
         {
-          "client_id": "674016294268-8igrov8j41u98katc5g9kqtdnin5s5ht.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.example.collage_leave_app",
-            "certificate_hash": "0fa9a031bf6b9b0a527816df0ca369ed6d672330"
-          }
-        },
-        {
-          "client_id": "674016294268-uhfeuprlmj0guf6ofm5kvr1gsahaamgk.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.example.collage_leave_app",
-            "certificate_hash": "086c13c978e4c516f9fdf2f0d2035380491d72fe"
-          }
-        },
-        {
-          "client_id": "674016294268-50q6ktqucpt45m7c88k6lj86dut1gjcm.apps.googleusercontent.com",
+          "client_id": "989437567599-1lcqssfc6r2p3qgg2o3sknsbagj8078j.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyD4oRPzo7Yg8sanCYHCpv_3-uBDZumBqaI"
+          "current_key": "AIzaSyDlpheOWev3Xo9UOahX8VBrhaVz2Nm397k"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "674016294268-50q6ktqucpt45m7c88k6lj86dut1gjcm.apps.googleusercontent.com",
+              "client_id": "989437567599-1lcqssfc6r2p3qgg2o3sknsbagj8078j.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

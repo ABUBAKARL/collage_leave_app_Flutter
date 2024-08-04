@@ -1,3 +1,4 @@
+import 'package:collage_leave_app/Screens/login.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -7,23 +8,24 @@ import '../widgets/flat_switch.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class login_info extends StatefulWidget {
-  const login_info({super.key});
+class LoginInfo extends StatefulWidget {
+  const LoginInfo({super.key});
+
   @override
-  State<login_info> createState() => _login_infoState();
+  State<LoginInfo> createState() => _LoginInfoState();
 }
 
-bool _switch = false;
-FirebaseFirestore _firestore = FirebaseFirestore.instance;
-FirebaseAuth _auth = FirebaseAuth.instance;
-TextEditingController _namecontroller = TextEditingController();
-TextEditingController _smestercontroller = TextEditingController();
-TextEditingController _rollNocontroller = TextEditingController();
-final _namekey = GlobalKey<FormState>();
-final _rollnokey = GlobalKey<FormState>();
-final _smesterkey = GlobalKey<FormState>();
+class _LoginInfoState extends State<LoginInfo> {
+  bool _switch = false;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _semesterController = TextEditingController();
+  final TextEditingController _rollNoController = TextEditingController();
+  final GlobalKey<FormState> _nameKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> _rollNoKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> _semesterKey = GlobalKey<FormState>();
 
-class _login_infoState extends State<login_info> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,30 +41,21 @@ class _login_infoState extends State<login_info> {
           padding: const EdgeInsets.all(12.0),
           child: Column(
             children: [
-              SizedBox(
-                height: Get.height * .05,
-              ),
+              SizedBox(height: Get.height * .05),
               FlatSwitch(
                 switch_: _switch,
                 toogle: () {
-                  _switch = !_switch;
-                  setState(() {});
+                  setState(() {
+                    _switch = !_switch;
+                  });
                 },
               ),
-              SizedBox(
-                height: Get.height * .1,
-              ),
+              SizedBox(height: Get.height * .1),
               Form(
-                key: _namekey,
+                key: _nameKey,
                 child: TextFormField(
-                  validator: (value) {
-                    if (value!.isNotEmpty) {
-                      return null;
-                    } else {
-                      return 'Invalid input';
-                    }
-                  },
-                  controller: _namecontroller,
+                  validator: (value) => value!.isNotEmpty ? null : 'Invalid input',
+                  controller: _nameController,
                   decoration: const InputDecoration(
                     hintText: 'Name',
                     border: OutlineInputBorder(
@@ -78,24 +71,16 @@ class _login_infoState extends State<login_info> {
                   ),
                 ),
               ),
-              SizedBox(
-                height: Get.height * .06,
-              ),
+              SizedBox(height: Get.height * .06),
               SizedBox(
                 width: Get.width,
                 child: Form(
-                  key: _rollnokey,
+                  key: _rollNoKey,
                   child: TextFormField(
-                    validator: (value) {
-                      if (value!.isNotEmpty & value.isNumericOnly) {
-                        return null;
-                      } else {
-                        return 'Invalid input';
-                      }
-                    },
-                    controller: _rollNocontroller,
+                    validator: (value) => value!.isNotEmpty && value.isNumericOnly ? null : 'Invalid input',
+                    controller: _rollNoController,
                     keyboardType: TextInputType.number,
-                    enabled: _switch ? false : true,
+                    enabled: !_switch,
                     decoration: const InputDecoration(
                       hintText: 'Roll number',
                       border: OutlineInputBorder(
@@ -112,18 +97,16 @@ class _login_infoState extends State<login_info> {
                   ),
                 ),
               ),
-              SizedBox(
-                height: Get.height * .06,
-              ),
+              SizedBox(height: Get.height * .06),
               SizedBox(
                 width: Get.width,
                 child: Form(
-                  key: _smesterkey,
+                  key: _semesterKey,
                   child: TextFormField(
                     validator: (value) {
-                      if (value!.isNotEmpty & value.isNumericOnly) {
-                        if ((int.parse(value.toString()) > 0) &
-                            (int.parse(value.toString()) < 9)) {
+                      if (value!.isNotEmpty && value.isNumericOnly) {
+                        int semester = int.parse(value);
+                        if (semester > 0 && semester < 9) {
                           return null;
                         } else {
                           return '1-8';
@@ -132,9 +115,9 @@ class _login_infoState extends State<login_info> {
                         return 'Invalid input';
                       }
                     },
-                    controller: _smestercontroller,
+                    controller: _semesterController,
                     keyboardType: TextInputType.number,
-                    enabled: _switch ? false : true,
+                    enabled: !_switch,
                     decoration: const InputDecoration(
                       hintText: 'Semester',
                       border: OutlineInputBorder(
@@ -151,97 +134,9 @@ class _login_infoState extends State<login_info> {
                   ),
                 ),
               ),
-              SizedBox(
-                height: Get.height * .1,
-              ),
+              SizedBox(height: Get.height * .1),
               ElevatedButton(
-                onPressed: () async {
-                  if (_switch) {
-                    if (_namekey.currentState!.validate()) {
-                      _firestore
-                          .collection('admins')
-                          .doc(_auth.currentUser!.uid)
-                          .set({
-                        'id': _auth.currentUser!.uid,
-                        'name': _namecontroller.text,
-                        'auth': 1,
-                        'profile': _auth.currentUser!.photoURL,
-                        'mail': _auth.currentUser!.email
-                      }).then(
-                        (value) async {
-                          Hive.box("users").put("Auth", "admin");
-                          await signInCheck();
-                        },
-                      ).onError(
-                        (error, stackTrace) {
-                          Get.snackbar(
-                            'Error',
-                            error.toString(),
-                          );
-                        },
-                      );
-                    }
-                  } else {
-                    if (_namekey.currentState!.validate() &
-                        _rollnokey.currentState!.validate() &
-                        _smesterkey.currentState!.validate()) {
-                      await _firestore
-                          .collection("initCollection")
-                          .doc(_rollNocontroller.text.toString())
-                          .get()
-                          .then((value) {
-                        if (value.exists) {
-                          var StudentName =
-                              value.get("name").toString().toLowerCase();
-                          if (StudentName ==
-                              _namecontroller.text.toLowerCase().trim()) {
-                            _firestore
-                                .collection('users')
-                                .doc(_auth.currentUser!.uid)
-                                .set({
-                              'id': _auth.currentUser!.uid,
-                              'name': _namecontroller.text,
-                              'semester': _smestercontroller.text,
-                              'rollno': _rollNocontroller.text,
-                              "mail": _auth.currentUser!.email,
-                              'profile': _auth.currentUser!.photoURL,
-                              'allowed': true
-                            }).then(
-                              (value) async {
-                                Hive.box("users").put("Auth", "student");
-                                await signInCheck();
-                              },
-                            ).onError(
-                              (error, stackTrace) {
-                                Get.snackbar(
-                                  'Error',
-                                  error.toString(),
-                                );
-                              },
-                            );
-                          } else {
-                            Get.snackbar(
-                              'Error',
-                              'Your name is not correct',
-                            );
-                            _auth.signOut();
-                            GoogleSignIn().signOut();
-                          }
-                        } else {
-                          Get.snackbar(
-                            'Error',
-                            'Roll number does not exist in our database',
-                          );
-                          _auth.signOut();
-                          GoogleSignIn().signOut();
-                        }
-                      });
-                    }
-                  }
-                  _rollNocontroller.clear();
-                  _namecontroller.clear();
-                  _smestercontroller.clear();
-                },
+                onPressed: _proceed,
                 child: const Text('Proceed'),
               ),
             ],
@@ -249,5 +144,86 @@ class _login_infoState extends State<login_info> {
         ),
       ),
     );
+  }
+
+  Future<void> _proceed() async {
+    if (_switch) {
+      if (_nameKey.currentState!.validate()) {
+        await _createAdmin();
+      }
+    } else {
+      if (_nameKey.currentState!.validate() &&
+          _rollNoKey.currentState!.validate() &&
+          _semesterKey.currentState!.validate()) {
+        await _checkOrCreateStudent();
+      }
+    }
+    _clearFields();
+  }
+
+  Future<void> _createAdmin() async {
+    try {
+      await _firestore.collection('admins').doc(_auth.currentUser!.uid).set({
+        'id': _auth.currentUser!.uid,
+        'name': _nameController.text,
+        'auth': 1,
+        'profile': _auth.currentUser!.photoURL,
+        'mail': _auth.currentUser!.email
+      });
+      Hive.box("users").put("Auth", "admin");
+      await signInCheck();
+    } catch (error) {
+      Get.snackbar('Error', error.toString());
+    }
+  }
+
+  Future<void> _checkOrCreateStudent() async {
+    DocumentReference docRef = _firestore.collection("initCollection").doc(_rollNoController.text);
+    try {
+      DocumentSnapshot doc = await docRef.get();
+      if (doc.exists) {
+        var studentName = doc.get("name").toString().toLowerCase();
+        if (studentName == _nameController.text.toLowerCase().trim()) {
+          await _createStudent();
+        } else {
+          _signOutWithError('Your name is not correct');
+        }
+      } else {
+        await _createStudent();
+      }
+    } catch (error) {
+      Get.snackbar('Error', error.toString());
+    }
+  }
+
+  Future<void> _createStudent() async {
+    try {
+      await _firestore.collection('users').doc(_auth.currentUser!.uid).set({
+        'id': _auth.currentUser!.uid,
+        'name': _nameController.text,
+        'semester': _semesterController.text,
+        'rollno': _rollNoController.text,
+        "mail": _auth.currentUser!.email,
+        'profile': _auth.currentUser!.photoURL,
+        'allowed': true
+      });
+      Hive.box("users").put("Auth", "student");
+      await signInCheck();
+    } catch (error) {
+      Get.snackbar('Error', error.toString());
+    }
+  }
+
+  void _signOutWithError(String message) {
+    Get.snackbar('Error', message);
+    _auth.signOut();
+    GoogleSignIn().signOut();
+    Get.offAll(() => login_screen());
+  }
+
+  void _clearFields() {
+    _rollNoController.clear();
+    _nameController.clear();
+    _semesterController.clear();
   }
 }
