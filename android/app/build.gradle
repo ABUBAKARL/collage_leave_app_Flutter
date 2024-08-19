@@ -58,16 +58,17 @@ apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
     signingConfigs {
         debug {
         }
-    //    release {
-    //        storeFile file("my-release-key.keystore")
-    //         storePassword "12345678"
-    //         keyAlias "my-key-alias"
-    //         keyPassword "12345678"
-    //    }
+    release {
+    storeFile file("signiKey.keystore")
+    storePassword "KingsMan"
+    keyAlias "signiKey"
+    keyPassword "KingsMan"
+}
+
     }
     buildTypes {
         release {
-            signingConfig signingConfigs.debug
+            signingConfig signingConfigs.release
         }
     }
    }
